@@ -120,4 +120,18 @@ public class TodoDAO {
 		todoDAO.insertOne(todoVO2);
 		
 	}
+
+	public void deleteByMember(String mid) throws Exception {
+
+	    @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+
+	    @Cleanup PreparedStatement pstmt =
+	            conn.prepareStatement(
+	                "delete from tbl_todo where mid=?"
+	            );
+
+	    pstmt.setString(1, mid);
+
+	    pstmt.executeUpdate();
+	}
 }
