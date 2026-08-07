@@ -18,6 +18,7 @@ public enum MemberService {
 	
 	MemberDAO memberDAO = new MemberDAO(); 
 	ModelMapper modelMapper = MapperUtil.INSTANCE.get();
+	TodoDAO todoDAO = new TodoDAO();
 	
 	public MemberDTO login(String mid, String mpw) throws Exception {
 		MemberDTO memberDTO = modelMapper.map(memberDAO.selectOne(mid), MemberDTO.class);
@@ -44,6 +45,13 @@ public enum MemberService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void remove(String mid) throws Exception {
+
+	    todoDAO.deleteByMember(mid);
+
+	    memberDAO.remove(mid);
 	}
 
 }
