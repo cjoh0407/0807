@@ -45,7 +45,12 @@
 	</c:otherwise>
 </c:choose>
 </button>
-<a href="${pageContext.request.contextPath}/member/remove">회원탈퇴</a>
+<button type="button"
+        onclick="if(confirm('정말 회원탈퇴 하시겠습니까?')) {
+            location.href='${pageContext.request.contextPath}/member/remove';
+        }">
+    회원탈퇴
+</button>
 
 
 </body>

@@ -25,7 +25,7 @@ public class LogoutController extends HttpServlet {
 		session.invalidate(); 
 		
 		//todo/list로 이동 
-		response.sendRedirect("/todo/list");
+		response.sendRedirect("/login");
 	}
 
 }
