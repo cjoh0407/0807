@@ -67,9 +67,9 @@
 <body>
 
 	<c:if test="${param.result == 'error'}">
-		<div>
-			아이디 또는 비밀번호를 확인해주세요 
-		</div>
+		<script>
+			alert("아이디 또는 비밀번호를 확인해주세요");
+		</script>
 	</c:if>
 
     <div class="login-box">
