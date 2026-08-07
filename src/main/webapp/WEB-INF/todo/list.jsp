@@ -34,6 +34,7 @@
 		${loginInfo.mname} <a href="${pageContext.request.contextPath}/logout">로그아웃</a>
 	</c:otherwise>
 </c:choose>
+<a href="${pageContext.request.contextPath}/member/remove">회원탈퇴</a>
 
 
 </body>
