@@ -13,24 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.or.oti.todo.dto.MemberDTO;
 import kr.or.oti.todo.dto.TodoDTO;
 import kr.or.oti.todo.service.TodoService;
 
-/**
- * Servlet implementation class TodoListController
- */
 @WebServlet("/todo/list")
 public class TodoListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ServletContext application =  request.getServletContext();
+		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
-		
 		
 		application.setAttribute("count", "0");
 		session.setAttribute("count", 0);
@@ -38,26 +32,26 @@ public class TodoListController extends HttpServlet {
 		
 		response.addCookie(new Cookie("name", "hong"));
 		
-		List<TodoDTO> list;
 		try {
-			list = TodoService.INSTANCE.getList();
-			request.setAttribute("list", list);
+		    MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		    
+		    if (loginInfo == null) {
+		        response.sendRedirect(request.getContextPath() + "/login");
+		    }
+		    
+		    String mid = loginInfo.getMid();
+		    List<TodoDTO> list = TodoService.INSTANCE.getList(mid);
+		    request.setAttribute("list", list);
+		    
+		    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/todo/list.jsp");
+		    rd.forward(request, response);
+		    
 		} catch (Exception e) {
-			e.printStackTrace();
+		    e.printStackTrace();
+		    throw new ServletException(e); // 예외 발생 시 원인을 콘솔에 명확히 남기기 위함
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/todo/list.jsp");
-		rd.forward(request, response);
 	}
 
 	public static void main(String [] args) {
-//		List<TodoDTO> list = TodoService.INSTANCE.getList();
-//		System.out.println(list);
-//		
-//		for (TodoDTO todoDTO : list) {
-//			System.out.println(todoDTO);
-//		}
-//		TodoService.INSTANCE.register(new TodoDTO());
 	}
-	
 }

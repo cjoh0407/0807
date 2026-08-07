@@ -12,23 +12,33 @@ import lombok.Cleanup;
 
 public class TodoDAO {
 
-	public List<TodoVO> selectAll() throws Exception  {
-		@Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
-		@Cleanup PreparedStatement pstmt = conn.prepareStatement("select * from tbl_todo") ;
-		@Cleanup ResultSet rs = pstmt.executeQuery();
-		List<TodoVO> list = new ArrayList<>();
-		
-		while(rs.next()) {
-			list.add(TodoVO.builder()
-					.tid(rs.getLong("tid"))
-					.title(rs.getString("title"))
-					.dueDate(rs.getDate("dueDate").toLocalDate())
-					.finished(rs.getBoolean("finished"))
-					.build());
-		}
-		
-		return list;
-	}
+	// mid를 파라미터로 받아서 해당 사용자의 Todo만 조회
+    public List<TodoVO> selectAll(String mid) throws Exception {
+        String sql = "SELECT * FROM tbl_todo WHERE mid = ? ORDER BY tid DESC";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        pstmt.setString(1, mid);
+
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        List<TodoVO> list = new ArrayList<>();
+
+        while (rs.next()) {
+            TodoVO vo = TodoVO.builder()
+                    .tid(rs.getLong("tid"))
+                    .title(rs.getString("title"))
+                    .dueDate(rs.getDate("dueDate").toLocalDate())
+                    .finished(rs.getBoolean("finished"))
+                    .mid(rs.getString("mid"))
+                    .build();
+
+            list.add(vo);
+        }
+
+        return list;
+    }
 	
 	public TodoVO selectOne(long tid) throws Exception  {
 		@Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
@@ -42,6 +52,7 @@ public class TodoDAO {
 					.title(rs.getString("title"))
 					.dueDate(rs.getDate("dueDate").toLocalDate())
 					.finished(rs.getBoolean("finished"))
+					.mid(rs.getString("mid"))
 					.build();
 		}
 		
@@ -99,7 +110,7 @@ public class TodoDAO {
 //		System.out.println("DB 연결 객체 얻기 되면 실제 DB에 연결됨 ");
 		
 		TodoDAO todoDAO = new TodoDAO();
-		List<TodoVO> list = todoDAO.selectAll();
+		List<TodoVO> list = todoDAO.selectAll("kosa");
 		System.out.println(list);
 
 		System.out.println(todoDAO.selectOne(2));

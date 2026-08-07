@@ -14,6 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoDTO {
+	private String mid;
 	private Long tid;
 	private String title;
 	private LocalDate dueDate;
@@ -22,13 +23,4 @@ public class TodoDTO {
 	public String getFinishedStr() {
 		return finished ? "done" : "not yet";
 	}
-	
-//	public TodoVO getTodoVO() {
-//		return TodoVO.builder()
-//				.tid(tid)
-//				.title(title)
-//				.dueDate(dueDate)
-//				.finished(finished)
-//				.build();
-//	}
 }

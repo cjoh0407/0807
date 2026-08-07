@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>할일 목록</title>
 </head>
 <body>
 <h1>할일 목록</h1>
@@ -44,14 +44,16 @@ ${fn:length(list) % 2 == 0 ? '짝수' : '홀수'}
 				${dto.title} 
 				${dto.dueDate} 
 				${dto.finished}
+				<%-- DTO에 getFinishedStr()이 구현되어 있다면 사용 가능 --%>
 				${dto.finishedStr}
 		</li>
 	</c:forEach>
 </ul>
 
 <a href="${pageContext.request.contextPath}/todo/register">할일등록</a>
+
 <c:choose>
-	<c:when test="${empty(loginInfo)}">
+	<c:when test="${empty loginInfo}">
 		<a href="${pageContext.request.contextPath}/login">로그인</a>
 	</c:when>
 	<c:otherwise>
