@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import kr.or.oti.todo.dto.MemberDTO;
 import kr.or.oti.todo.dto.TodoDTO;
 import kr.or.oti.todo.service.TodoService;
 
@@ -30,8 +30,10 @@ public class TodoRegisterController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 로그인할 때 저장했던 loginInfo를 가져옴
+		MemberDTO memberDTO = (MemberDTO) request.getSession().getAttribute("loginInfo");
+		System.out.println("할일 등록할 사용자id : "+memberDTO.getMid());
 		//할일 등록 한다
-		
 		String title = request.getParameter("title");
 		String dueDate = request.getParameter("dueDate");
 
@@ -40,6 +42,7 @@ public class TodoRegisterController extends HttpServlet {
 		TodoDTO todoDTO = TodoDTO.builder()
 				.title(title)
 				.dueDate(LocalDate.parse(dueDate))
+				.mid(memberDTO.getMid())
 				.build();
 		
 		try {

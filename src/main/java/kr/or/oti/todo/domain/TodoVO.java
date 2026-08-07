@@ -18,6 +18,7 @@ public class TodoVO {
 	private String title;
 	private LocalDate dueDate;
 	private boolean finished;
+	private String mid;
 	
 //	public TodoDTO getTodoDTO() {
 //		return TodoDTO.builder()

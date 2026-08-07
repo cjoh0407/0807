@@ -18,6 +18,7 @@ public class TodoDTO {
 	private String title;
 	private LocalDate dueDate;
 	private boolean finished;
+	private String mid;
 	
 	public String getFinishedStr() {
 		return finished ? "done" : "not yet";
