@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.or.oti.todo.dto.MemberDTO;
 import kr.or.oti.todo.dto.TodoDTO;
 import kr.or.oti.todo.service.TodoService;
 
@@ -30,7 +31,6 @@ public class TodoListController extends HttpServlet {
 		
 		ServletContext application =  request.getServletContext();
 		HttpSession session = request.getSession();
-		
 		
 		application.setAttribute("count", "0");
 		session.setAttribute("count", 0);
