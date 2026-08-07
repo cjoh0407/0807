@@ -12,6 +12,7 @@ public enum MemberService {
 	
 	MemberDAO memberDAO = new MemberDAO(); 
 	ModelMapper modelMapper = MapperUtil.INSTANCE.get();
+	TodoDAO todoDAO = new TodoDAO();
 	
 	public MemberDTO login(String mid, String mpw) throws Exception {
 		// 1. DAO에서 먼저 VO 객체를 받아옵니다.
@@ -48,6 +49,13 @@ public enum MemberService {
 		
 		// 3. 회원이 존재할 때만 DTO로 매핑하여 반환
 		return modelMapper.map(vo, MemberDTO.class);
+	}
+	
+	public void remove(String mid) throws Exception {
+
+	    todoDAO.deleteByMember(mid);
+
+	    memberDAO.remove(mid);
 	}
 
 }

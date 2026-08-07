@@ -80,10 +80,11 @@ public class TodoDAO {
 	
 	public void insertOne(TodoVO todoVO) throws Exception  {
 		@Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
-		@Cleanup PreparedStatement pstmt = conn.prepareStatement("insert into tbl_todo (title, dueDate, finished) values (?,?,?)") ;
+		@Cleanup PreparedStatement pstmt = conn.prepareStatement("insert into tbl_todo (title, dueDate, finished, mid) values (?,?,?,?)") ;
 		pstmt.setString(1, todoVO.getTitle());
 		pstmt.setDate(2, java.sql.Date.valueOf(todoVO.getDueDate()));
 		pstmt.setBoolean(3, todoVO.isFinished());
+		pstmt.setString(4, todoVO.getMid());
 		
 		pstmt.executeUpdate();
 	}
@@ -130,5 +131,19 @@ public class TodoDAO {
 				.build();
 		todoDAO.insertOne(todoVO2);
 		
+	}
+
+	public void deleteByMember(String mid) throws Exception {
+
+	    @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+
+	    @Cleanup PreparedStatement pstmt =
+	            conn.prepareStatement(
+	                "delete from tbl_todo where mid=?"
+	            );
+
+	    pstmt.setString(1, mid);
+
+	    pstmt.executeUpdate();
 	}
 }
