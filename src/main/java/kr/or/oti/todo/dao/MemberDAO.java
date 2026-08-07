@@ -17,7 +17,7 @@ public class MemberDAO {
 
 	public MemberVO selectOne(String mid) throws Exception  {
 		@Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
-		@Cleanup PreparedStatement pstmt = conn.prepareStatement("select * from tbl_member where mid=?") ;
+		@Cleanup PreparedStatement pstmt = conn.prepareStatement("select * from tbl_member where mid=? and del_flag='N'") ;
 		pstmt.setString(1, mid);
 		
 		@Cleanup ResultSet rs = pstmt.executeQuery();
@@ -43,7 +43,7 @@ public class MemberDAO {
 
 	public MemberVO getByUUID(String uuid) throws Exception {
 		@Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
-		@Cleanup PreparedStatement pstmt = conn.prepareStatement("select * from tbl_member where uuid=?") ;
+		@Cleanup PreparedStatement pstmt = conn.prepareStatement("select * from tbl_member where uuid=? and del_flag='N'") ;
 		pstmt.setString(1, uuid);
 		
 		@Cleanup ResultSet rs = pstmt.executeQuery();
@@ -56,5 +56,15 @@ public class MemberDAO {
 		}
 		
 		return null;
+	}
+	
+	public void remove(String mid) throws Exception {
+	    @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+
+	    @Cleanup PreparedStatement pstmt = conn.prepareStatement("update tbl_member set del_flag='Y', uuid=null where mid=?");
+
+	    pstmt.setString(1, mid);
+
+	    pstmt.executeUpdate();
 	}
 }
